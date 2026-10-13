@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HeavenCheck.com – What's your score?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e6f3ff;--card:#fff;--ink:#12304f;--mute:#4b6785;--blue:#4a9bf0;--halo:#f6c935;--line:#c7ddf3;--red:#e8603f;--yel:#f6c935;--grn:#5fb86c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e2036;--card:#16304d;--ink:#e8f3ff;--mute:#9db8d4;--line:#27496b}}
+:root[data-theme="dark"]{--bg:#0e2036;--card:#16304d;--ink:#e8f3ff;--mute:#9db8d4;--line:#27496b}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{position:relative;margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.1;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,7vw,3.2rem)}h2{font-size:clamp(1.7rem,5vw,2.4rem)}
+p{margin:0 0 1em}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+section{padding:44px 0}
+header{display:flex;align-items:center;gap:10px;padding:16px 20px;max-width:760px;margin:0 auto;font-weight:700;font-size:1.15rem}
+.logo{width:76px;height:76px;flex:none;filter:drop-shadow(0 4px 10px rgba(58,134,224,.35))}
+header{gap:14px}.word{display:flex;flex-direction:column;line-height:1;font-size:2rem;font-weight:700;letter-spacing:-.02em}.word span{font-weight:400}
+.hero-logo{display:flex;align-items:center;gap:18px;margin-bottom:22px}.hero-logo .logo{width:120px;height:120px;filter:drop-shadow(0 10px 22px rgba(58,134,224,.4))}.hero-logo b{font-size:1.05rem;color:var(--mute);font-weight:500;max-width:14ch;line-height:1.3}
+.lead{font-size:1.2rem;color:var(--mute);max-width:34ch}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:999px;padding:14px 26px;background:var(--ink);color:var(--bg);cursor:pointer;min-height:48px}
+button.alt{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.chip{padding:8px 16px;min-height:40px;background:var(--card);color:var(--ink);border:2px solid var(--line);font-weight:500}
+.chip[aria-pressed="true"]{border-color:var(--blue);background:var(--blue);color:#06223f;font-weight:700}
+.opts{display:grid;gap:10px;margin-top:16px}
+.opt{text-align:left;border-radius:14px;background:var(--bg);color:var(--ink);border:2px solid var(--line);font-weight:500;padding:14px 18px}
+.opt:hover{border-color:var(--blue)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--blue);width:0;transition:width .3s}
+.gauge{width:100%;max-width:420px;display:block;margin:0 auto}
+.needle{transform-origin:100px 100px;transition:transform 1.6s cubic-bezier(.2,.9,.2,1)}
+.big{font:700 3.6rem/1 Fraunces,serif;text-align:center}
+.cap{text-align:center;color:var(--mute);font-size:.95rem}
+.verdict{text-align:center;font-size:1.25rem;font-weight:700;margin:12px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.hide{display:none}
+select,input[type=text]{font:inherit;width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+.deed{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.up{color:var(--grn);font-weight:700}.down{color:var(--red);font-weight:700}
+.stories{display:grid;gap:14px}
+blockquote{margin:0;font-family:Fraunces,serif;font-size:1.15rem}
+small,.fine{color:var(--mute);font-size:.88rem}
+footer{padding:36px 0 56px;border-top:1px solid var(--line);color:var(--mute);font-size:.9rem}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
+.jesus{position:absolute;right:6px;top:61px;width:72px;z-index:2}
+.scale{position:absolute;right:42px;top:150px;bottom:90px;width:34px;border-right:2px solid var(--ink);display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;pointer-events:none;z-index:2}
+.scale span{display:flex;align-items:center;gap:5px;height:0;margin-right:-2px;font-size:.7rem;font-weight:500;color:var(--mute)}
+.scale i{display:block;width:12px;height:2px;background:var(--ink)}
+.dot{position:absolute;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--blue);border:3px solid var(--halo);transform:translateY(-50%);transition:top 1.6s cubic-bezier(.2,.9,.2,1)}
+@media (max-width:999px){.wrap,header{padding-right:84px}}
+@media (min-width:1000px){.jesus{right:10px;top:14px;width:110px}.scale{right:65px;width:40px}.scale span{font-size:.8rem}}
+@media (prefers-reduced-motion:reduce){.dot{transition:none}}
+.tabs{display:flex;gap:6px;overflow-x:auto;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs button{background:transparent;color:var(--ink);padding:10px 16px;min-height:44px;white-space:nowrap;font-weight:500}
+.tabs button[aria-current="page"]{background:var(--ink);color:var(--bg);font-weight:700}
+.goal{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.goal input{width:22px;height:22px;flex:none}.goal b{margin-left:auto}
+#btext{white-space:pre-line;margin-top:14px}.kick{letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--blue);font-size:.85rem;margin-bottom:10px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+@media (prefers-reduced-motion:reduce){.needle,.bar i{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8cc6ff"/><stop offset="1" stop-color="#3a86e0"/></linearGradient>
+<linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#f2b705"/></linearGradient>
+<symbol id="mark" viewBox="0 0 64 64"><circle cx="32" cy="36" r="28" fill="url(#lg)"/><ellipse cx="32" cy="11" rx="14" ry="4.5" fill="none" stroke="#f6c935" stroke-opacity=".35" stroke-width="7"/><ellipse cx="32" cy="11" rx="14" ry="4.5" fill="none" stroke="url(#hg)" stroke-width="3.2"/><path d="M17 48a9 9 0 0 1 2-17.5 12 12 0 0 1 23-2.5 10 10 0 0 1 5 20z" fill="#fff"/><path d="M25 39l5.5 5.5L41 33" fill="none" stroke="#3a86e0" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<svg class="jesus" viewBox="0 0 100 124" role="img" aria-label="Jesus sitting at the top of the scale at 100, looking down" style="color:var(--ink)"><ellipse cx="50" cy="9" rx="21" ry="6" fill="none" stroke="#f6c935" stroke-width="3.5"/><path d="M27 40c0-17 10-27 23-27s23 10 23 27v22c-4 4-10 4-12 0H39c-2 4-8 4-12 0z" fill="#9a5a2b" stroke="currentColor" stroke-width="1.2"/><path d="M29 68q21-9 42 0l7 40H22z" fill="#fff" stroke="currentColor" stroke-width="1.2"/><ellipse cx="50" cy="38" rx="15" ry="17" fill="#f3c9a0" stroke="currentColor" stroke-width="1.2"/><path d="M35 40c1 15 7 24 15 24s14-9 15-24c-4 6-9 8-15 8s-11-2-15-8z" fill="#8a4b1f" stroke="currentColor" stroke-width="1.2"/><circle cx="43.5" cy="36" r="1.8" fill="#12304f"/><circle cx="56.5" cy="36" r="1.8" fill="#12304f"/><path d="M45 53q5 3.5 10 0" fill="none" stroke="#f3c9a0" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="52" cy="92" rx="9" ry="5" fill="#f3c9a0" stroke="currentColor" stroke-width="1.2"/><ellipse cx="37" cy="116" rx="9" ry="4.5" fill="#a8643a" stroke="currentColor" stroke-width="1.2"/><ellipse cx="63" cy="116" rx="9" ry="4.5" fill="#a8643a" stroke="currentColor" stroke-width="1.2"/></svg>
+<div class="scale" aria-hidden="true"><span>100<i></i></span><span>90<i></i></span><span>80<i></i></span><span>70<i></i></span><span>60<i></i></span><span>50<i></i></span><span>40<i></i></span><span>30<i></i></span><span>20<i></i></span><span>10<i></i></span><span>0<i></i></span><b class="dot hide" id="dot"></b></div>
+<header>
+<svg class="logo" aria-hidden="true"><use href="#mark"/></svg>
+<div class="word">Heaven<span>Check.com</span></div>
+</header>
+
+<main class="wrap">
+<nav class="tabs" aria-label="Sections"><button data-tab="home" aria-current="page">Home</button><button data-tab="score">My Score</button><button data-tab="bible">Bible</button><button data-tab="community">Prayer</button><button data-tab="store">Store</button><button data-tab="account">Account</button></nav>
+<div class="panel" id="p-home">
+<section style="padding-top:20px">
+<p class="kick">What's your score?</p>
+<h1>A Score Isn’t Salvation. But It’s a Start.</h1>
+<p class="lead">Use AI to reflect on your life, explore your values, and start deeper conversations about eternity.</p>
+<p><button id="start">Check my score. It's free.</button></p>
+<p class="fine">Heaven's 100 belongs to Jesus alone, so no score here goes past 99.</p>
+</section>
+
+<section id="quiz" class="hide" aria-live="polite">
+<div class="card">
+<div id="pick">
+<h2>Your tradition</h2>
+<p>This shapes the Bible passages and prayers you see.</p>
+<div class="chips" id="chips"></div>
+<p style="margin-top:22px"><button id="go" disabled>Begin the quiz</button></p>
+</div>
+<div id="q" class="hide">
+<div class="bar"><i id="prog"></i></div>
+<small id="qn"></small>
+<h3 id="qt" style="margin-top:6px"></h3>
+<div class="opts" id="opts"></div>
+</div>
+</div>
+</section>
+
+</div>
+<div class="panel hide" id="p-score">
+<section style="padding-bottom:0"><div class="card" id="noscore"><p>Take the quiz to get your starting score. Your goals and log live here.</p><button data-go="home">Go to the quiz</button></div></section>
+<section id="result" class="hide">
+<div class="card">
+<svg class="gauge" viewBox="0 0 200 118" role="img" aria-label="Heaven score gauge">
+<g id="arcs"></g>
+<g class="needle" id="needle"><line x1="100" y1="100" x2="100" y2="34" stroke="#12304f" stroke-width="5" stroke-linecap="round"/></g>
+<circle cx="100" cy="100" r="9" fill="#12304f"/>
+<text x="14" y="114" font-size="9" fill="currentColor">0</text>
+<text x="170" y="114" font-size="9" fill="currentColor">100 = Jesus</text>
+</svg>
+<div class="big" id="score">0</div>
+<div class="cap">Your Heaven Score</div>
+<div class="verdict" id="verdict"></div>
+<p id="verse" style="text-align:center"></p>
+<div class="row"><button id="share">Share my score</button><button class="alt" id="retake">Retake the quiz</button></div>
+</div>
+
+<div class="card" style="margin-top:18px">
+<h3>A prayer for today</h3>
+<blockquote id="prayer"></blockquote>
+<div class="row" style="justify-content:flex-start"><button class="alt" id="sharePrayer">Share this prayer</button></div>
+</div>
+</section>
+
+<section id="goals"><h2>Your goals</h2><p class="lead" style="max-width:none">Finish goals to lift your score. Each new week, month, quarter and year starts fresh, so your score moves.</p><div class="card"><div class="chips" id="gchips"></div><div id="glist"></div></div></section>
+<section id="deeds">
+<h2>Good deeds and missteps</h2>
+<p class="lead" style="max-width:none">Log what you did this week. Your score moves a little, in either direction. Stored only on this device.</p>
+<div class="card">
+<label for="dtype"><small>What happened?</small></label>
+<select id="dtype"></select>
+<p style="margin-top:12px"><button id="addDeed">Add to my log</button></p>
+<div id="log"></div>
+<p class="fine" id="empty">Nothing logged yet. Take the quiz first, then log your first deed.</p>
+</div>
+</section>
+
+</div>
+<div class="panel hide" id="p-community">
+<section><h2>Prayer wall</h2><p>Share a request and pray for others. These are sample requests while we build real accounts. Yours stay on this device for now.</p><div class="card"><input type="text" id="preq" maxlength="140" placeholder="What can people pray for?" aria-label="Prayer request"><p style="margin-top:12px"><button id="psend">Share my request</button></p><p class="fine">Coming with accounts: “John in Missouri has prayed for you.”</p></div><div id="plist" class="stories" style="margin-top:14px"></div></section>
+<section>
+<h2>Top 10 stories of the month</h2>
+<p>Each month we share ten stories from members whose scores climbed. Samples below show how it will look.</p>
+<div class="stories">
+<div class="card"><blockquote>"I called my brother after eleven years. My score went up, but the phone call was the real win."</blockquote><small>Sample story · Dana, Ohio</small></div>
+<div class="card"><blockquote>"We took the quiz as a youth group and talked until midnight."</blockquote><small>Sample story · Pastor Luis' group</small></div>
+</div>
+</section>
+
+</div>
+<div class="panel hide" id="p-store">
+<section><h2>Store</h2><p>Flaunt it. Merch is coming soon.</p><div class="grid"><div class="card"><h3>Certified Heaven-Ready tee</h3><p>👕</p><button class="alt" disabled>Coming soon</button></div><div class="card"><h3>Heaven-Ready mug</h3><p>☕</p><button class="alt" disabled>Coming soon</button></div><div class="card"><h3>Halo sticker</h3><p>😇</p><button class="alt" disabled>Coming soon</button></div></div></section>
+<section>
+<h2>Give, together</h2>
+<p>Giving to a cause can be logged as a good deed. Online donations need a payment partner, so for now this is a placeholder.</p>
+<p><button class="alt" id="give">I made a gift. Log it.</button></p>
+</section>
+
+</div>
+<div class="panel hide" id="p-bible"><section><h2>Bible</h2><p>Look up any passage (World English Bible).</p><div class="card"><input type="text" id="bref" placeholder="John 3:16" aria-label="Bible reference"><div class="chips" id="bq"></div><p style="margin-top:14px"><button id="bgo">Look it up</button></p><div id="btext" aria-live="polite"></div></div><h3 style="margin-top:28px">Ask a question</h3><div class="card"><p>Soon you can ask AI your faith questions here and get answers tied to Scripture. This needs a server, so it's the next build.</p></div></section></div>
+<div class="panel hide" id="p-account"><section><h2>Account</h2><div class="card"><label for="uname"><small>First name</small></label><input type="text" id="uname"><label for="ust" style="display:block;margin-top:12px"><small>State</small></label><input type="text" id="ust"><p style="margin-top:14px"><button id="usave">Save</button></p><p class="fine">For now this saves only on this device. Real sign-in, so your score follows you to any device, is the next build.</p></div></section></div>
+<footer>
+<p>HeavenCheck is a tool for reflection and conversation, not a statement about anyone's eternity. Only God knows the heart.</p>
+<p>About · Contact · Terms · Privacy · Affiliate disclosure</p>
+</footer>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var TRAD=["Catholic","Baptist","Methodist","Lutheran","Orthodox","Non-denominational","Not sure yet"];
+var QS=[
+["How often do you make time for prayer or quiet reflection?",["Rarely or never","A few times a month","Most weeks","Daily"]],
+["When someone wrongs you, what do you usually do?",["Hold a grudge","Stay distant","Try to forgive eventually","Forgive and seek peace"]],
+["How honest are you, even when it costs you?",["Honesty is optional","Mostly honest","Honest almost always","Honest, even when it hurts"]],
+["How often do you help someone with nothing in return?",["Rarely","A few times a year","Monthly","Weekly or more"]],
+["How do you handle anger, like road rage or snapping at family?",["It controls me","It slips out often","Occasionally it slips","I pause and reset"]],
+["How connected are you to a faith community or study?",["Not at all","Occasionally","Regularly","Active and serving"]],
+["How do you treat people who are different from you?",["I avoid them","Politely, at a distance","With curiosity","With real warmth"]],
+["When you fall short, what do you do?",["Ignore it","Feel bad, move on","Apologize","Apologize and change course"]]];
+var VERSES={Default:"Ephesians 2:8 reminds us that salvation is a gift of grace, not a score.",Catholic:"Micah 6:8 calls us to act justly, love mercy and walk humbly.",Baptist:"Romans 10:9 speaks of faith confessed and believed.",Methodist:"James 2:17 says faith without works is dead, so let it show.",Lutheran:"Romans 3:28 says we are justified by faith, not by works.",Orthodox:"Psalm 51 is a classic prayer of repentance and mercy."};
+var PRAYERS=["Lord, thank you for another day. Help me to be honest, kind and patient. Where I fall short, forgive me, and lead me back to you. Amen.","God, make me quieter than my worries and braver than my habits. Show me one person to love well today. Amen."];
+var DEEDS=[["Helped a neighbor or stranger",3],["Forgave someone",4],["Volunteered or served",4],["Gave to a cause",3],["Prayed or read Scripture",2],["Told a lie",-3],["Lost my temper",-2],["Held a grudge",-2],["Skipped a chance to help",-1]];
+var st={t:null,i:0,pts:0,base:null,log:[]};
+var $=function(i){return document.getElementById(i)};
+function show(id){$(id).classList.remove("hide")}
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(function(){t.classList.remove("on")},2200)}
+try{var s=JSON.parse(localStorage.getItem("hc")||"null");if(s&&s.base!=null){st.base=s.base;st.t=s.t;st.log=s.log||[]}}catch(e){}
+function save(){try{localStorage.setItem("hc",JSON.stringify({base:st.base,t:st.t,log:st.log}))}catch(e){}}
+function cur(){var d=st.log.reduce(function(a,x){return a+x.p},0);return Math.max(3,Math.min(99,Math.round((st.base||0)+d+(window.gp?gp():0))))}
+// chips
+TRAD.forEach(function(n){var b=document.createElement("button");b.className="chip";b.textContent=n;b.setAttribute("aria-pressed","false");
+b.onclick=function(){st.t=n;[].forEach.call($("chips").children,function(c){c.setAttribute("aria-pressed",c===b)});$("go").disabled=false};$("chips").appendChild(b)});
+// gauge arcs
+function pt(v,r){var a=Math.PI*(1-v/100);return[(100+r*Math.cos(a)).toFixed(1),(100-r*Math.sin(a)).toFixed(1)]}
+function arc(a,b,c){var p=pt(a,78),q=pt(b,78),p2=pt(b,52),q2=pt(a,52);
+return '<path d="M'+p+' A78 78 0 0 1 '+q+' L'+p2+' A52 52 0 0 0 '+q2+' Z" fill="'+c+'"/>'}
+$("arcs").innerHTML=arc(0,40,"#e8603f")+arc(40,70,"#f6c935")+arc(70,100,"#5fb86c");
+function setGauge(v){var d=$("dot");d.classList.remove("hide");d.style.top=(100-v)+"%";$("needle").style.transform="rotate("+(v/100*180-90)+"deg)";
+var n=0,step=Math.max(1,Math.round(v/40)),iv=setInterval(function(){n=Math.min(v,n+step);$("score").textContent=n;if(n>=v)clearInterval(iv)},40);
+$("verdict").textContent=v<40?"Yikes… we need to talk.":v<71?"You're on your way. Keep going.":"Looking divine!"}
+function render(){var v=cur();$("noscore").classList.add("hide");show("result");setGauge(v);$("verse").textContent=VERSES[st.t]||VERSES.Default;
+$("prayer").textContent=PRAYERS[new Date().getDate()%2]}
+function ask(){var q=QS[st.i];$("qn").textContent="Question "+(st.i+1)+" of "+QS.length;$("qt").textContent=q[0];$("prog").style.width=(st.i/QS.length*100)+"%";
+$("opts").innerHTML="";q[1].forEach(function(o,k){var b=document.createElement("button");b.className="opt";b.textContent=o;b.onclick=function(){st.pts+=k;st.i++;st.i<QS.length?ask():finish()};$("opts").appendChild(b)})}
+function finish(){st.base=Math.round(20+st.pts/(QS.length*3)*75);st.log=[];save();$("quiz").classList.add("hide");render();renderLog();$("result").scrollIntoView()}
+$("start").onclick=function(){show("quiz");$("pick").classList.remove("hide");$("q").classList.add("hide");$("quiz").scrollIntoView()};
+$("go").onclick=function(){st.i=0;st.pts=0;$("pick").classList.add("hide");show("q");ask()};
+$("retake").onclick=function(){$("result").classList.add("hide");$("start").onclick()};
+// deeds
+DEEDS.forEach(function(d,i){var o=document.createElement("option");o.value=i;o.textContent=(d[1]>0?"+":"")+d[1]+"  "+d[0];$("dtype").appendChild(o)});
+function addDeed(i){if(st.base==null){toast("Take the quiz first to get a starting score.");$("start").scrollIntoView();return}
+var d=DEEDS[i];st.log.unshift({n:d[0],p:d[1]});save();renderLog();setGauge(cur())}
+function renderLog(){var h="";st.log.slice(0,8).forEach(function(x){h+='<div class="deed"><span>'+x.n+'</span><span class="'+(x.p>0?"up":"down")+'">'+(x.p>0?"+":"")+x.p+'</span></div>'});
+$("log").innerHTML=h;$("empty").classList.toggle("hide",st.log.length>0)}
+$("addDeed").onclick=function(){addDeed(+$("dtype").value)};
+$("give").onclick=function(){addDeed(3)};
+// share
+function share(text){var url="https://heavencheck.com";
+if(navigator.share){navigator.share({title:"HeavenCheck",text:text,url:url}).catch(function(){})}
+else{try{navigator.clipboard.writeText(text+" "+url).then(function(){toast("Copied. Paste it anywhere.")})}catch(e){toast("Copy this: "+text)}}}
+$("share").onclick=function(){share("My Heaven Score is "+cur()+". What's yours?")};
+$("sharePrayer").onclick=function(){share($("prayer").textContent)};
+if(st.base!=null){render();renderLog()}
+</script>
+<script>
+var TABS=["home","score","bible","community","store","account"];
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function ld(k,d){try{return JSON.parse(localStorage.getItem(k)||"null")||d}catch(e){return d}}
+function tab(n){TABS.forEach(function(t){$("p-"+t).classList.toggle("hide",t!==n);document.querySelector("[data-tab="+t+"]").setAttribute("aria-current",t===n?"page":"false")});window.scrollTo(0,0);try{history.replaceState(null,"","#"+n)}catch(e){}}
+[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){tab(b.dataset.tab)}});
+[].forEach.call(document.querySelectorAll("[data-go]"),function(b){b.onclick=function(){tab(b.dataset.go)}});
+var _f=finish;finish=function(){_f();tab("score")};
+var _s=$("start").onclick;$("start").onclick=function(){tab("home");_s()};
+var _a=addDeed;addDeed=function(i){var had=st.base!=null;_a(i);if(had)toast("Logged: "+DEEDS[i][0])};
+// goals
+var GOALS={Weekly:[["Pray every day",2],["Do one kind thing for someone",2],["Read one chapter of Scripture",2]],Monthly:[["Reconcile with someone",3],["Volunteer or give",3],["Attend a service or study",3]],Quarterly:[["Read a whole Gospel",4],["Serve in a lasting way",4],["Have a deep faith conversation",4]],Yearly:[["Read the whole Bible",5],["Mend one broken relationship",5],["Pick a cause to serve all year",5]]};
+var G=ld("hcg",{}),gper="Weekly";
+function pid(p){var d=new Date(),y=d.getFullYear(),m=d.getMonth();if(p=="Weekly"){var t=new Date(d);t.setDate(d.getDate()-((d.getDay()+6)%7));return t.getFullYear()+"-"+t.getMonth()+"-"+t.getDate()}if(p=="Monthly")return y+"-"+m;if(p=="Quarterly")return y+"Q"+Math.floor(m/3);return ""+y}
+function gp(){var s=0;for(var p in GOALS)GOALS[p].forEach(function(g,i){if(G[p+i+"@"+pid(p)])s+=g[1]});return s}
+function rg(){$("gchips").innerHTML="";Object.keys(GOALS).forEach(function(p){var b=document.createElement("button");b.className="chip";b.textContent=p;b.setAttribute("aria-pressed",p==gper);b.onclick=function(){gper=p;rg()};$("gchips").appendChild(b)});var h="";GOALS[gper].forEach(function(g,i){var k=gper+i+"@"+pid(gper);h+='<label class="goal"><input type="checkbox" data-k="'+k+'"'+(G[k]?" checked":"")+'> <span>'+g[0]+'</span> <b class="up">+'+g[1]+'</b></label>'});$("glist").innerHTML=h;[].forEach.call($("glist").querySelectorAll("input"),function(c){c.onchange=function(){if(st.base==null){c.checked=false;toast("Take the quiz first.");return}G[c.dataset.k]=c.checked;sv("hcg",G);setGauge(cur())}})}
+// bible
+["Psalm 23","John 3:16","Romans 8:28","Matthew 5:1-12"].forEach(function(r){var b=document.createElement("button");b.className="chip";b.textContent=r;b.onclick=function(){$("bref").value=r;$("bgo").click()};$("bq").appendChild(b)});
+$("bref").onkeydown=function(e){if(e.key==="Enter")$("bgo").click()};
+$("bgo").onclick=function(){var r=$("bref").value.trim();if(!r)return;$("btext").textContent="Looking…";fetch("https://bible-api.com/"+encodeURIComponent(r)+"?translation=web").then(function(x){return x.json()}).then(function(j){if(j.error)throw 0;$("btext").innerHTML="<h3></h3><p></p>";$("btext").firstChild.textContent=j.reference;$("btext").lastChild.textContent=j.text.trim()}).catch(function(){$("btext").textContent="Couldn't find that. Try John 3:16 or Psalm 23."})};
+// prayer wall
+var P=[["Sarah","Ohio","Please pray for my dad's surgery on Thursday."],["John","Missouri","Struggling with anger lately. Pray for patience."],["Maria","Texas","Thankful! My daughter got the job she prayed for."]],M=ld("hcm",[]),PR=ld("hcr",{});
+function rp(){$("plist").innerHTML="";M.map(function(t,i){return{n:"You",l:"",t:t,k:"m"+i}}).concat(P.map(function(p,i){return{n:p[0],l:p[1]+" · sample",t:p[2],k:"s"+i}})).forEach(function(r){var c=document.createElement("div");c.className="card";var q=document.createElement("blockquote");q.textContent=r.t;var s=document.createElement("small");s.textContent=r.n+(r.l?" · "+r.l:"");var b=document.createElement("button");b.className="alt";b.style.marginTop="12px";b.textContent=PR[r.k]?"🙏 You prayed":"🙏 I prayed";b.onclick=function(){PR[r.k]=!PR[r.k];sv("hcr",PR);rp()};c.appendChild(q);c.appendChild(s);c.appendChild(document.createElement("br"));c.appendChild(b);$("plist").appendChild(c)})}
+$("psend").onclick=function(){var t=$("preq").value.trim();if(!t)return;M.unshift(t);sv("hcm",M);$("preq").value="";rp();toast("Added. Visible on this device for now.")};
+// account
+var U=ld("hcu",{});$("uname").value=U.n||"";$("ust").value=U.s||"";
+$("usave").onclick=function(){U={n:$("uname").value.trim(),s:$("ust").value.trim()};sv("hcu",U);toast("Saved on this device")};
+var h0=location.hash.slice(1);tab(TABS.indexOf(h0)>-1?h0:"home");rg();rp();if(st.base!=null)render();
+</script>
+</body>
+</html>
